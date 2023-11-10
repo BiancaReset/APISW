@@ -35,7 +35,6 @@ def handle_invalid_usage(error):
     return jsonify(error.to_dict()), error.status_code
 
 @app.route('/')
-
 def sitemap():
     return generate_sitemap(app)
 
