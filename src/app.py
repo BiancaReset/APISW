@@ -243,7 +243,7 @@ def create_favorite():
         db.session.commit()
 
         return jsonify({
-        "msg": "Favorito creado"
+        "msg": "Favorito agregado"
         }), 200
 
     elif user_filter is not None and planet_filter is not None:
@@ -253,13 +253,14 @@ def create_favorite():
         db.session.commit()
 
         return jsonify({
-        "msg": "Favorito creado"
+        "msg": "Favorito agregado"
         }), 200
 
     else:
         return jsonify({
-                "msg":"No se pudo crear el favorito. Asegúrate que el usuario, personaje o planeta existan"
+                "msg":"favorite could not be create, make sure user, character or planet exists"
             }), 404
+        
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
