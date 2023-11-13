@@ -67,28 +67,22 @@ def handle_user():
         }), 200
 
 
-@app.route("/user/<int:id>", methods=["GET","PUT", "DELETE"])
+@app.route("/user/<int:id>", methods=["PUT", "DELETE"])
 def update_user(id):
-    if request.method == 'GET':
-        user_id = id
+    if request.method == 'PUT':
         user = User.query.get(id)
-        data = user.to_dict()
-
-        return data, 200
-    elif request.method == 'PUT':
-        user = User.query.get(id)
-        if user is not None:
-            data = request.get_json()
-            user.name = data["name"]
-            user.email = data["email"]
-            db.session.commit()
-            return jsonify({
-                "msg":"Usuario actualizado"
-            }),200
-        else:
-            return jsonify({
-                "msg": "Usuario no encontrado"
-            }), 404
+        if user is not None: 
+            data = request.get_json() 
+            user.email = data["email"] 
+            db.session.commit() 
+            return jsonify({ 
+                "msg":"Usuario actualizado" 
+            }),200 
+        else: 
+            return jsonify({ 
+                "msg": "Usuario no encotrado" 
+                        }), 404
+        
     elif request.method == 'DELETE':
         user = User.query.get(id)
         if user is not None:
@@ -113,6 +107,11 @@ def handle_character():
             "data": characters
         }), 200
     elif request.method == 'POST':
+        if request.headers.get('Content-Type') != 'application/json':
+            return jsonify({
+                "error": "Invalid content type. Use application/json."
+            }), 400
+        
         character = Character()
         data = request.get_json()
         character.name = data["name"]
@@ -139,6 +138,7 @@ def update_character(id):
             return jsonify({
                 "msg": "Personaje no encotrado"
             }), 404
+        
     elif request.method == 'DELETE':
         character = Character.query.get(id)
         if character is not None:
@@ -163,6 +163,11 @@ def handle_planet():
             "data": planets
         }), 200
     elif request.method == 'POST':
+        if request.headers.get('Content-Type') != 'application/json':
+            return jsonify({
+                "error": "Invalid content type. Use application/json."
+            }), 400
+        
         planet = Planet()
         data = request.get_json()
         planet.name = data["name"]
