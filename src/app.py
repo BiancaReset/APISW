@@ -10,6 +10,7 @@ from admin import setup_admin
 from models import db, User, Planet, Character, Favorite 
 
 app = Flask(__name__)
+CORS(app)
 
 app.url_map.strict_slashes = False
 
@@ -56,6 +57,7 @@ def handle_user():
 
         user = User()
         data = request.get_json()
+        user.fullname = data["fullname"]
         user.email = data["email"]
         user.password = data["password"]
 
@@ -80,7 +82,7 @@ def update_user(id):
             }),200 
         else: 
             return jsonify({ 
-                "msg": "Usuario no encotrado" 
+                "msg": "Usuario no encontrado" 
                         }), 404
         
     elif request.method == 'DELETE':

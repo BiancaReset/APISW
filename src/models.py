@@ -4,6 +4,7 @@ db = SQLAlchemy()
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    fullname = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), nullable=False)
     is_active = db.Column(db.Boolean(), nullable=False, default=True)
@@ -11,6 +12,7 @@ class User(db.Model):
     def to_dict(self):
         return{
             "id": self.id,
+            "fullname": self.fullname,
             "email": self.email,
             "is_active": self.is_active,
         }
